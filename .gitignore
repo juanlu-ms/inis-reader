@@ -1,0 +1,44 @@
+# Archivos y directorios generados por CLion y CMake
+# ===================================================
+
+# El directorio .idea contiene la configuración personal del IDE.
+# Es mejor ignorarlo para no generar conflictos con otros desarrolladores.
+.idea/
+
+# Directorios de compilación de CLion. Contienen los ejecutables,
+# archivos objeto y otros artefactos de la compilación.
+cmake-build-*/
+
+# Archivos generados por CMake
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+install_manifest.txt
+
+
+# Archivos de compilación y ejecutables
+# ======================================
+
+# Archivos objeto, librerías estáticas y dinámicas
+*.o
+*.a
+*.so
+*.dll
+
+# Ejecutables (en Windows y Linux/macOS)
+*.exe
+*.out
+*.app
+
+
+# Otros archivos a ignorar
+# ========================
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de respaldo de editores comunes
+*~
+*.swp
