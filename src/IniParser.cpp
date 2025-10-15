@@ -17,3 +17,10 @@ IniParser::~IniParser() {
     delete[] sections;
 }
 
+bool IniParser::loadFile(const char *filename) {
+    return true;
+}
+
+const char *IniParser::getValue(const char *section, const char *key) {
+    return "";
+}
