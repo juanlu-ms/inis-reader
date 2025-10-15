@@ -1,6 +1,10 @@
 #ifndef LECTOR_INIS_INIPARSER_H
 #define LECTOR_INIS_INIPARSER_H
 
+#include <cstdio>
+
+#define BUFFER_SIZE 512
+
 struct KeyValue {
     char* key {nullptr};
     char* value {nullptr};
@@ -23,6 +27,9 @@ public:
 private:
     Section* sections {nullptr};
     int size {0};
+
+    static void cleanLine(char* line);
+    void add_section(const char* section_name, const size_t section_name_size);
 };
 
 #endif //LECTOR_INIS_INIPARSER_H
