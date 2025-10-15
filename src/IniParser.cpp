@@ -50,19 +50,22 @@ void IniParser::add_section(const char* section_name, const size_t section_name_
     name[section_name_size] = '\0';
 
     //TODO: SEGUIR CON ESTO
-    Section* section {};
-    memcpy(section->name, section_name, section_name_size);
-
-    if (size == 0) {
-        sections = new Section[1];
-        sections[0] = *section;
+    if (capacity == 0) {
+        sections = new Section[20];
+        sections[0] = Section{name, nullptr, 0};
+        capacity = 20;
         size = 1;
+    } else if (size < capacity) {
+        sections[size] = Section{name, nullptr, 0};
+        size++;
     } else {
-        auto* new_sections = new Section[size + 1];
-        memcpy(new_sections, sections, sizeof(Section) * size);
+        auto* new_sections {new Section[capacity + 20]};
+        memcpy(new_sections, sections, sizeof(Section) * capacity);
         delete[] sections;
         sections = new_sections;
+        sections[size] = Section{name, nullptr, 0};
         size++;
+        capacity += 20;
     }
 
 }

@@ -27,6 +27,7 @@ public:
 private:
     Section* sections {nullptr};
     int size {0};
+    int capacity {0};
 
     static void cleanLine(char* line);
     void add_section(const char* section_name, const size_t section_name_size);
