@@ -20,54 +20,51 @@ IniParser::~IniParser() {
 }
 
 // Remove leading and trailing whitespace from a line
-void IniParser::cleanLine(char* line) {
+void IniParser::cleanLine(char *line) {
     if (line == nullptr || line[0] == '\0') {
         return;
     }
 
     // Trim trailing whitespace
-    char* end_ptr = line + (strlen(line) - 1);
+    char *end_ptr = line + (strlen(line) - 1);
     while (end_ptr >= line && isspace(*end_ptr)) {
         end_ptr--;
     }
     *(end_ptr + 1) = '\0';
 
     // Trim leading whitespace
-    const char* start_ptr = line;
+    const char *start_ptr = line;
     while (*start_ptr && isspace(*start_ptr)) {
         start_ptr++;
     }
     memmove(line, start_ptr, strlen(start_ptr) + 1);
 }
 
-void IniParser::add_section(const char* section_name, const size_t section_name_size) {
+void IniParser::add_section(const char *section_name, const size_t section_name_size) {
     if (section_name == nullptr || section_name_size == 0) {
         return;
     }
 
-    auto* name {new char[section_name_size + 1]};
+    auto *name{new char[section_name_size + 1]};
     strncpy(name, section_name, section_name_size);
     name[section_name_size] = '\0';
 
-    //TODO: SEGUIR CON ESTO
-    if (capacity == 0) {
-        sections = new Section[20];
-        sections[0] = Section{name, nullptr, 0};
-        capacity = 20;
-        size = 1;
-    } else if (size < capacity) {
-        sections[size] = Section{name, nullptr, 0};
-        size++;
-    } else {
-        auto* new_sections {new Section[capacity + 20]};
-        memcpy(new_sections, sections, sizeof(Section) * capacity);
-        delete[] sections;
+    if (capacity == size) {
+        int new_capacity{};
+        capacity == 0 ? new_capacity = 10 : new_capacity = capacity * 2;
+        auto *new_sections{new Section[new_capacity]};
+        if (sections != nullptr) {
+            memcpy(new_sections, sections, sizeof(Section) * capacity);
+            delete[] sections;
+        }
         sections = new_sections;
         sections[size] = Section{name, nullptr, 0};
         size++;
         capacity += 20;
+    } else {
+        sections[size] = Section{name, nullptr, 0};
+        size++;
     }
-
 }
 
 bool IniParser::loadFile(const char *filename) {
@@ -95,7 +92,6 @@ bool IniParser::loadFile(const char *filename) {
         if (buffer[0] == '[' && buffer[strlen(buffer) - 1] == ']') {
             add_section(buffer + 1, strlen(buffer) - 2);
         }
-
     }
 
     fclose(file);
