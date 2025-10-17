@@ -20,20 +20,20 @@ IniParser::~IniParser() {
 }
 
 // Remove leading and trailing whitespace from a line
-void IniParser::cleanLine(char *line) {
+void IniParser::cleanLine(char* line) {
     if (line == nullptr || line[0] == '\0') {
         return;
     }
 
     // Trim trailing whitespace
-    char *end_ptr = line + (strlen(line) - 1);
+    char* end_ptr = line + (strlen(line) - 1);
     while (end_ptr >= line && isspace(*end_ptr)) {
         end_ptr--;
     }
     *(end_ptr + 1) = '\0';
 
     // Trim leading whitespace
-    const char *start_ptr = line;
+    const char* start_ptr = line;
     while (*start_ptr && isspace(*start_ptr)) {
         start_ptr++;
     }
@@ -41,9 +41,9 @@ void IniParser::cleanLine(char *line) {
 }
 
 void IniParser::resize_section_array() {
-    int new_capacity{};
+    int new_capacity {};
     capacity == 0 ? new_capacity = 10 : new_capacity = capacity * 2;
-    auto *new_sections{new Section[new_capacity]};
+    auto* new_sections{new Section[new_capacity]};
     if (sections != nullptr) {
         memcpy(new_sections, sections, sizeof(Section) * capacity);
         delete[] sections;
@@ -52,12 +52,12 @@ void IniParser::resize_section_array() {
     capacity = new_capacity;
 }
 
-void IniParser::add_section(const char *section_name, const size_t section_name_size) {
+void IniParser::add_section(const char* section_name, const size_t section_name_size) {
     if (section_name == nullptr || section_name_size == 0) {
         return;
     }
 
-    auto *name{new char[section_name_size + 1]};
+    auto* name{new char[section_name_size + 1]};
     strncpy(name, section_name, section_name_size);
     name[section_name_size] = '\0';
 
@@ -100,6 +100,6 @@ bool IniParser::loadFile(const char *filename) {
     return true;
 }
 
-const char *IniParser::getValue(const char *section, const char *key) {
+const char* IniParser::getValue(const char* section, const char* key) {
     return "";
 }
