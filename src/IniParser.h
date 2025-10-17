@@ -30,6 +30,7 @@ private:
     int capacity {0};
 
     static void cleanLine(char* line);
+    void resize_section_array();
     void add_section(const char* section_name, const size_t section_name_size);
 };
 

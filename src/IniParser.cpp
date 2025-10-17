@@ -40,6 +40,18 @@ void IniParser::cleanLine(char *line) {
     memmove(line, start_ptr, strlen(start_ptr) + 1);
 }
 
+void IniParser::resize_section_array() {
+    int new_capacity{};
+    capacity == 0 ? new_capacity = 10 : new_capacity = capacity * 2;
+    auto *new_sections{new Section[new_capacity]};
+    if (sections != nullptr) {
+        memcpy(new_sections, sections, sizeof(Section) * capacity);
+        delete[] sections;
+    }
+    sections = new_sections;
+    capacity = new_capacity;
+}
+
 void IniParser::add_section(const char *section_name, const size_t section_name_size) {
     if (section_name == nullptr || section_name_size == 0) {
         return;
@@ -50,20 +62,10 @@ void IniParser::add_section(const char *section_name, const size_t section_name_
     name[section_name_size] = '\0';
 
     if (capacity == size) {
-        int new_capacity{};
-        capacity == 0 ? new_capacity = 10 : new_capacity = capacity * 2;
-        auto *new_sections{new Section[new_capacity]};
-        if (sections != nullptr) {
-            memcpy(new_sections, sections, sizeof(Section) * capacity);
-            delete[] sections;
-        }
-        sections = new_sections;
-        sections[size] = Section{name, nullptr, 0};
-        size++;
-        capacity += 20;
+        resize_section_array();
+        sections[size++] = Section{name, nullptr, 0};
     } else {
-        sections[size] = Section{name, nullptr, 0};
-        size++;
+        sections[size++] = Section{name, nullptr, 0};
     }
 }
 
