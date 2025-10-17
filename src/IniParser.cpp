@@ -45,7 +45,9 @@ void IniParser::resize_section_array() {
     capacity == 0 ? new_capacity = 10 : new_capacity = capacity * 2;
     auto* new_sections{new Section[new_capacity]};
     if (sections != nullptr) {
-        memcpy(new_sections, sections, sizeof(Section) * capacity);
+        for (int i = 0; i < size; ++i) {
+            new_sections[i] = sections[i];
+        }
         delete[] sections;
     }
     sections = new_sections;
@@ -57,16 +59,20 @@ void IniParser::add_section(const char* section_name, const size_t section_name_
         return;
     }
 
+    if (capacity == size) {
+        resize_section_array();
+    }
+
     auto* name{new char[section_name_size + 1]};
     strncpy(name, section_name, section_name_size);
     name[section_name_size] = '\0';
 
-    if (capacity == size) {
-        resize_section_array();
-        sections[size++] = Section{name, nullptr, 0};
-    } else {
-        sections[size++] = Section{name, nullptr, 0};
-    }
+    sections[size].name = name;
+    sections[size].data = nullptr;
+    sections[size].size = 0;
+    sections[size].capacity = 0;
+
+    current_section = &sections[size++];
 }
 
 bool IniParser::loadFile(const char *filename) {

@@ -14,6 +14,7 @@ struct Section {
     char* name {nullptr};
     KeyValue* data {nullptr};
     int size {0};
+    int capacity {0};
 };
 
 class IniParser {
@@ -26,6 +27,7 @@ public:
 
 private:
     Section* sections {nullptr};
+    Section* current_section {nullptr};
     int size {0};
     int capacity {0};
 
