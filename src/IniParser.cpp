@@ -19,20 +19,18 @@ IniParser::~IniParser() {
     delete[] sections;
 }
 
-// Remove leading and trailing whitespace from a line
 void IniParser::cleanLine(char* line) {
     if (line == nullptr || line[0] == '\0') {
         return;
     }
 
-    // Trim trailing whitespace
     char* end_ptr = line + (strlen(line) - 1);
     while (end_ptr >= line && isspace(*end_ptr)) {
         end_ptr--;
     }
     *(end_ptr + 1) = '\0';
 
-    // Trim leading whitespace
+
     const char* start_ptr = line;
     while (*start_ptr && isspace(*start_ptr)) {
         start_ptr++;
@@ -63,7 +61,7 @@ void IniParser::add_section(const char* section_name, const size_t section_name_
         resize_section_array();
     }
 
-    auto* name{new char[section_name_size + 1]};
+    auto* name {new char[section_name_size + 1]};
     strncpy(name, section_name, section_name_size);
     name[section_name_size] = '\0';
 
@@ -73,6 +71,38 @@ void IniParser::add_section(const char* section_name, const size_t section_name_
     sections[size].capacity = 0;
 
     current_section = &sections[size++];
+}
+
+void IniParser::resize_key_value_array() const {
+    int new_capacity {};
+    current_section->capacity == 0 ? new_capacity = 10 : new_capacity = capacity * 2;
+    auto* new_data{new KeyValue[new_capacity]};
+    if (current_section->data != nullptr) {
+        for (int i = 0; i < current_section->size; ++i) {
+            new_data[i] = current_section->data[i];
+        }
+        delete[] current_section->data;
+    }
+    current_section->data = new_data;
+    current_section->capacity = new_capacity;
+}
+
+void IniParser::create_key_value(const char* str, const char* equals_ptr, size_t key_value_size) {
+
+}
+
+void IniParser::add_key_value_to_section(const char* str, const size_t str_size) {
+    auto* equals_ptr {strchr(str, '=')};
+    if (equals_ptr == nullptr) {
+        return;
+    }
+
+    if (current_section->capacity == current_section->size) {
+        resize_key_value_array();
+    }
+
+    create_key_value(str, equals_ptr, str_size);
+
 }
 
 bool IniParser::loadFile(const char *filename) {
@@ -91,14 +121,14 @@ bool IniParser::loadFile(const char *filename) {
     while (fgets(buffer, BUFFER_SIZE, file) != nullptr) {
         cleanLine(buffer);
 
-        // Skip empty lines and comments
         if (buffer[0] == '\0' || buffer[0] == ';' || buffer[0] == '#') {
             continue;
         }
 
-        // Section header
         if (buffer[0] == '[' && buffer[strlen(buffer) - 1] == ']') {
             add_section(buffer + 1, strlen(buffer) - 2);
+        } else if (strchr(buffer, '=') != nullptr && current_section != nullptr) {
+            add_key_value_to_section(buffer, strlen(buffer) + 1);
         }
     }
 

@@ -22,6 +22,7 @@ public:
     IniParser() = default;
     ~IniParser();
 
+
     bool loadFile(const char* filename);
     const char* getValue(const char* section, const char* key);
 
@@ -33,7 +34,10 @@ private:
 
     static void cleanLine(char* line);
     void resize_section_array();
-    void add_section(const char* section_name, const size_t section_name_size);
+    void add_section(const char* section_name, size_t section_name_size);
+    void resize_key_value_array() const;
+    void create_key_value(const char* str, const char* equals_ptr, size_t key_value_size);
+    void add_key_value_to_section(const char* str, size_t str_size);
 };
 
 #endif //LECTOR_INIS_INIPARSER_H
