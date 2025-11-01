@@ -15,7 +15,7 @@ public:
 private:
     std::map<std::string, std::map<std::string, std::string>> data;
 
-    void trim(std::string& str) const;
+    static void trim(std::string& str);
 };
 
 #endif // INI_PARSER_H
