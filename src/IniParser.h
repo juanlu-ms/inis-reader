@@ -9,13 +9,12 @@ class IniParser {
 public:
     IniParser() = default;
 
-    bool loadFile(const std::string& filename);
-    std::string getValue(const std::string& section, const std::string& key) const;
+    bool loadFile(std::string_view filename);
+    std::string getValue(std::string_view section, std::string_view key) const;
 
 private:
-    std::map<std::string, std::map<std::string, std::string>> data;
-
-    static void trim(std::string& str);
+    using KeyValueMap = std::map<std::string, std::string, std::less<>>;
+    std::map<std::string, KeyValueMap, std::less<>> data;
 };
 
 #endif // INI_PARSER_H
