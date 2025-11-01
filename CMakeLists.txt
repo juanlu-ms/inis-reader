@@ -7,4 +7,6 @@ set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
 
 add_executable(lector_inis src/main.cpp
         src/IniParser.cpp
+        src/IniParser.h
+        src/IniParser.cpp
         src/IniParser.h)
