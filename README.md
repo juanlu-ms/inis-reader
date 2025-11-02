@@ -43,7 +43,7 @@ El proyecto utiliza CMake como sistema de compilación y Google Test para el fra
 
 ### Prerrequisitos
 * Un compilador compatible con C++23 (g++, Clang)
-* CMake (versión 3.15 o superior)
+* CMake (versión 3.25 o superior)
 * Git
 * Un sistema de compilación (Make o Ninja)
 
