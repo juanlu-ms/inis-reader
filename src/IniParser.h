@@ -10,7 +10,7 @@ public:
     IniParser() = default;
 
     bool loadFile(std::string_view filename);
-    std::string getValue(std::string_view section, std::string_view key) const;
+    [[nodiscard]] std::string getValue(std::string_view section, std::string_view key) const;
 
 private:
     using KeyValueMap = std::map<std::string, std::string, std::less<>>;
