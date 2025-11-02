@@ -9,7 +9,7 @@ class IniParser {
 public:
     IniParser() = default;
 
-    bool loadFile(std::string_view filename);
+    [[nodiscard]] bool loadFile(std::string_view filename);
     [[nodiscard]] std::string getValue(std::string_view section, std::string_view key) const;
 
 private:
