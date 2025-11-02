@@ -28,19 +28,18 @@ protected:
 };
 
 TEST_F(IniParserLoadTest, HandlesWhitespaceCorrectly) {
-    parser.loadFile("test.ini");
+    ASSERT_TRUE(parser.loadFile("test.ini")) << "Failed to load INI file";
     ASSERT_EQ(parser.getValue("SpacingTest", "spaced_key"), "spaced_value");
 }
 
 TEST_F(IniParserLoadTest, HandlesEmptySection) {
-    parser.loadFile("test.ini");
+    ASSERT_TRUE(parser.loadFile("test.ini")) << "Failed to load INI file";
     ASSERT_EQ(parser.getValue("NextSection", "key"), "value");
     ASSERT_EQ(parser.getValue("EmptySection", "some_key"), "");
 }
 
 TEST_F(IniParserLoadTest, ReadValuesCorrectly) {
-    const bool loadSuccess = parser.loadFile("test.ini");
-    ASSERT_TRUE(loadSuccess) << "Failed to load INI file";
+    ASSERT_TRUE(parser.loadFile("test.ini")) << "Failed to load INI file";
 
     ASSERT_EQ(parser.getValue("Database", "host"), "localhost") << "Failed to read 'host' key from 'Database' section";
     ASSERT_EQ(parser.getValue("Database", "port"), "8080") << "Failed to read 'port' key from 'Database' section";
@@ -49,7 +48,7 @@ TEST_F(IniParserLoadTest, ReadValuesCorrectly) {
 }
 
 TEST_F(IniParserLoadTest, ReturnsEmptyForNonExistentKey) {
-    parser.loadFile("test.ini");
+    ASSERT_TRUE(parser.loadFile("test.ini")) << "Failed to load INI file";
     ASSERT_EQ(parser.getValue("Database", "non_existent_key"), "") << "Non-existent key should return empty string";
 }
 
